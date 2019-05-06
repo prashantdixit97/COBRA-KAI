@@ -18,16 +18,16 @@ processed_tweets=[]
 args=['google']
 query = args[0]
 if len(args)==1:
-for status in tweepy.Cursor(api.search,q=query+"-filter:retweets",lang='en',result_type = 'recent').items(100):
-    list_tweets.append(status.text)
+    for status in tweepy.Cursor(api.search,q=query+"-filter:retweets",lang='en',result_type = 'recent').items(100):
+        list_tweets.append(status.text)
   
        
        
        
 with open('tfidfmodel.pickle','rb') as f:
-vectorizer = pickle.load(f)
+    vectorizer = pickle.load(f)
 with open('classifier.pickle','rb') as f:
-clf = pickle.load(f)
+    clf = pickle.load(f)
            
 pos,neg = 0,0
       
@@ -39,7 +39,7 @@ for tweet in list_tweets:
 
        
        
-    tweet = re.sub(r"n't"," not ",tweet)
+    tweet = tweet.replace("n't"," not ")
     tweet = re.sub(r"'s"," is ",tweet)
 #           
     tweet = re.sub(r"\W"," ",tweet)#remove punctuation
@@ -57,16 +57,16 @@ for tweet in list_tweets:
            
         
 
-#import matplotlib.pyplot as plt
-#import numpy as np
-#objects = ['positive','negative']
-#y_pos=np.arange(len(objects))
-#
-#plt.bar(y_pos,[pos,neg],alpha=.5)
-#plt.xticks(y_pos,objects)
-#plt.ylabel('height of numbers')
-#plt.title('comparison between negative and positive comments')
-#plt.show()
+import matplotlib.pyplot as plt
+import numpy as np
+objects = ['positive','negative']
+y_pos=np.arange(len(objects))
+
+plt.bar(y_pos,[pos,neg],alpha=.5)
+plt.xticks(y_pos,objects)
+plt.ylabel('height of numbers')
+plt.title('comparison between negative and positive comments')
+plt.show()
 
 
     
